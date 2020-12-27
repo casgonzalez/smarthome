@@ -1,0 +1,114 @@
+.logo-avatar,.avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.space__header {
+    margin-top: 120px;
+}
+
+.space__50 {
+    height: 50px;
+}
+.btn {
+    margin: 0px !important;
+
+}
+.box-gray {
+    background-color:#f5f5f5;
+    padding: 20px;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+tr.tr-users{
+    line-height: 40px;
+}
+
+.paginacion__usuarios nav {
+    float:right;
+}
+
+.pagination .page-item.active .page-link {
+    background: #1c2a48;
+}
+
+.activo {
+    background: #2bbbad !important;
+    color:white;
+}
+
+.inactivo {
+
+    background: #ff3547 !important;
+    color:white;
+}
+
+.no-padding {
+    padding: 0px !important;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.content__camera, .content_notifications {
+    height: 450px;
+}
+
+.overflor-y {
+    overflow-y: scroll;
+}
+
+.sensores .card-body {
+    height: 250px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
