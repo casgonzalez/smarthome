@@ -11,8 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(RolSeedTable::class);
 
-         factory(\App\User::class)->times(10)->create();
+
+
+        $this->call([
+            //ActuadorTableSeed::class
+        ]);
+
+        factory(\App\Escuchador::class)->times(100)->create();
     }
 }
