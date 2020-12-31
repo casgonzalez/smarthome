@@ -40,3 +40,6 @@ Route::group(['prefix'=>'administracion','middleware'=>'auth'],function(){
 });
 
 Route::post('alarmas',[\App\Http\Controllers\AlarmaController::class,'store'])->middleware('auth');
+
+
+Route::get('sendMessage',[\App\Http\Controllers\AlarmaController::class,'messsage']);
