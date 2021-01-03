@@ -28,7 +28,7 @@ Route::post('perfil/changeProfileImage',[\App\Http\Controllers\UsuariosControlle
 
 
 Route::put('actuadores/actualizar_estado',[\App\Http\Controllers\ActuadorController::class,'update']);
-
+Route::get('forzar_puerta',[\App\Http\Controllers\ActuadorController::class,'forzeDoor']);
 
 /**********************************ADMINISTRACION***********************************/
 
