@@ -19,19 +19,28 @@ Route::get('login',[\App\Http\Controllers\AuthController::class,'form'])->name('
 Route::post('login',[\App\Http\Controllers\AuthController::class,'login']);
 Route::post('logout',[\App\Http\Controllers\AuthController::class,'logout']);
 
+Route::get('welcome',[\App\Http\Controllers\AuthController::class,'welcome']);
+
 Route::get('activar-cuenta',[\App\Http\Controllers\UsuariosController::class,'activateAccount']);
 
+Route::get('perfil',[\App\Http\Controllers\UsuariosController::class,'profile']);
 Route::post('perfil/changeProfileImage',[\App\Http\Controllers\UsuariosController::class,'changeProfileImage']);
+
+
+Route::put('actuadores/actualizar_estado',[\App\Http\Controllers\ActuadorController::class,'update']);
 
 
 /**********************************ADMINISTRACION***********************************/
 
-Route::group(['prefix'=>'administracion','middleware'=>'auth'],function(){
+Route::group(['prefix'=>'administracion','middleware'=>['auth','user_check']],function(){
 
     Route::get('usuarios',[\App\Http\Controllers\UsuariosController::class,'index']);
     Route::get('usuarios/create',[\App\Http\Controllers\UsuariosController::class,'create']);
 
     Route::post('usuarios',[\App\Http\Controllers\UsuariosController::class,'store']);
+
+    Route::put('usuarios/{idUsuario}',[\App\Http\Controllers\UsuariosController::class,'update']);
+
 
     Route::delete('usuarios/{idUser}',[\App\Http\Controllers\UsuariosController::class,'destroy']);
 

@@ -219,11 +219,13 @@
             <div class="">
                 <h2>Smart Home</h2>
             </div>
-
         </header>
+        @error('email')
+            <span style="color:red;">{{$message}}</span>
+        @endif
         <form class="login-form" action="{{asset('login')}}" method="post">
             @csrf
-            <input type="text" name="email" class="login-input" placeholder="Correo electronico" required autofocus/>
+            <input type="text" name="email" value="{{old('email')}}" class="login-input" placeholder="Correo electronico" required autofocus/>
             <input type="password" name="password" class="login-input" placeholder="Contraseña" required/>
             <div class="submit-container">
                 <button type="submit" class="login-button">Iniciar Sesión</button>

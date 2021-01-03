@@ -36,6 +36,11 @@ class User extends Authenticatable
     public function scopeGetUsersLike($query,$like) {
         return $query->where('nombre',"LIKE","%{$like}%")
             ->where('idUsuario','<>',Auth::user()->idUsuario)
-            ->where('eliminado',0);
+            ->where('eliminado',0)
+            ->orderBy('idUsuario','DESC');
+    }
+
+    public function isAdmin() {
+        return $this->idRol == 1;
     }
 }

@@ -32,16 +32,18 @@
                     <ul class="navbar-nav nav-flex-icons">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item {{request()->is('administracion') ? 'active' : ''}}">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="/">
                                     <i class="fas fa-home"></i> Inicio <span class="sr-only">(current)</span>
                                 </a>
                             </li>
-                            <li class="nav-item {{request()->is('administracion/usuarios*') ? 'active' : ''}}">
-                                <a class="nav-link" href="{{asset('/administracion/usuarios')}}">
-                                    <i class="fas fa-users"></i>
-                                    Usuarios
-                                </a>
-                            </li>
+                            @if(Auth::user()->isAdmin())
+                                <li class="nav-item {{request()->is('administracion/usuarios*') ? 'active' : ''}}">
+                                    <a class="nav-link" href="{{asset('/administracion/usuarios')}}">
+                                        <i class="fas fa-users"></i>
+                                        Usuarios
+                                    </a>
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
                                     <i class="fas fa-bell"></i>
@@ -53,7 +55,7 @@
                                     {{Auth::user()->nombre}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Perfil</a>
+                                    <a class="dropdown-item" href="{{asset('perfil')}}">Perfil</a>
                                     <a class="dropdown-item" href="{{asset('/')}}">Mi Casa</a>
                                     <div class="dropdown-divider"></div>
                                     <form action="{{asset('logout')}}" method="POST">
@@ -70,6 +72,7 @@
         </nav>
     </header>
 
+    <div class="space__header"></div>
 
     @yield('content')
 

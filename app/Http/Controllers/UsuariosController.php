@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Mail\UserStoreMail;
+use App\Mail\UserUpdateMail;
 use App\Traits\UploadTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -16,10 +18,16 @@ class UsuariosController extends Controller
 
     use UploadTrait;
 
+    public function profile() {
+        $user = Auth::user();
+
+        return view('profile',compact('user'));
+    }
     public function index(Request $request) {
         $like = $request->like;
         $users = User::getUsersLike($like)->paginate(9);
-        return view('administracion.usuarios.index',compact('users','like'));
+        $user  = new User();
+        return view('administracion.usuarios.index',compact('users','like','user'));
     }
 
     public function create() {
@@ -55,6 +63,47 @@ class UsuariosController extends Controller
 
     }
 
+    public function update(Request $request,$idUser) {
+        DB::beginTransaction();
+        try {
+
+            $user = User::findOrFail($idUser);
+
+            $previusEmail = $user->email;
+
+            $user->nombre = $request->nombre;
+            $user->email  = $request->email;
+
+            $passwordUpdate = false;
+            $password       = $request->password;
+
+
+
+            if($request->password != null){
+                $passwordUpdate = true;
+                $user->password = $request->password;
+            }
+
+            $emailUpdated = $request->email == $user->email;
+
+            $user->save();
+
+            //mandar email unicamente si el correo fue actualizado o la contraseña fue actualizada
+            if ($emailUpdated || $passwordUpdate == true) {
+                $mail = new UserUpdateMail($user,$passwordUpdate,$password,$previusEmail);
+                Mail::to($user->email)->send($mail);
+            }
+
+            DB::commit();
+
+            return back();
+
+        }catch (\Exception $exception) {
+            DB::rollBack();
+            dd($exception);
+        }
+    }
+
     public function destroy($idUser){
 
         $user = User::findOrFail($idUser);
@@ -88,7 +137,7 @@ class UsuariosController extends Controller
 
            if ($request->hasFile('profile')) {
 
-               $user = User::findOrfail($request->idUsuario);
+               $user = User::findOrFail(Auth::user()->idUsuario);
 
                $image = $request->file('profile');
 
@@ -108,10 +157,6 @@ class UsuariosController extends Controller
            }
 
            return back();
-
-
-
-
 
         }catch (\Exception $exception) {
             dd($exception);

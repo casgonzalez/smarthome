@@ -16,6 +16,9 @@ class CreateActuadorsTable extends Migration
         Schema::create('actuadores', function (Blueprint $table) {
             $table->increments('id');
             $table->string('actuador');
+            $table->string('icono');
+            $table->integer('tamanio')->default(6);
+            $table->integer('nivel')->nullable();
             $table->tinyInteger('eliminado')->default(0);
             $table->tinyInteger('estado')->default(0); // 0' => apagado 1 => encendido
             $table->timestamps();
