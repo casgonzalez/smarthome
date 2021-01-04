@@ -4,77 +4,7 @@
 
 @section('style_css')
     <style>
-        .wrapper {
-            background: #f5f5f5;
-            padding: 20px;
-        }
 
-        .material-switch {
-            display: inline-block;
-            position: relative;
-            width: 46px;
-            height: 17px;
-            margin: 6px 1px;
-        }
-        .material-switch .material-switch-btn {
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            border-radius: 100px;
-            pointer-events: none;
-            opacity: 1;
-            transition: background-color linear .08s;
-            background: rgba(144, 144, 144, 0.2);
-        }
-        .material-switch .material-switch-btn:after {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: 0;
-            height: 27px;
-            width: 27px;
-            border-radius: 50%;
-            box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.6);
-            transition: -webkit-transform linear .08s, background-color linear .08s;
-            transition: transform linear .08s, background-color linear .08s;
-            will-change: transform;
-            background-color: #909090;
-            cursor: pointer;
-        }
-        .material-switch .material-switch-toggle {
-            opacity: 0;
-            position: absolute;
-            margin: 0;
-            z-index: -1;
-            width: 0;
-            height: 0;
-            overflow: hidden;
-            left: 0;
-            pointer-events: none;
-        }
-        .material-switch .material-switch-toggle:checked + .material-switch-btn:after {
-            transform: translateX(20px);
-            background-color: #4285f4;
-            box-shadow: 0 1px 5px 0 rgba(66, 133, 244, 0.6);
-        }
-
-
-        .float{
-            position:fixed;
-            width:60px;
-            height:60px;
-            bottom:75%;
-            right:40px;
-            background-color:#1c2a48 !important;
-            color:#FFF;
-            border-radius:50px;
-            text-align:center;
-            box-shadow: 2px 2px 3px #999;
-        }
-
-        .my-float{
-            margin-top:13px;
-        }
     </style>
 @stop
 
@@ -116,11 +46,11 @@
         </div>
     </div>
 
-     <div class="container">
+    <div class="container">
 
-         <div class="space__header"></div>
+        <div class="space__header"></div>
 
-         <div class="row wrapper">
+        <div class="row wrapper">
 
              <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
                  <div class="card no-padding">
@@ -135,7 +65,7 @@
              </div>
          </div>
 
-         <div class="row wrapper">
+        <div class="row wrapper">
              <div class="col-md-12">
                  <div class="card">
                      <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
@@ -148,11 +78,42 @@
                  </div>
              </div>
          </div>
+        <div class="row wrapper sensores">
+            @foreach($actuadores as $actuador)
+                <div class="col-md-{{$actuador->tamanio}} col-lg-{{$actuador->tamanio}} col-xs-12 col-sm-12">
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span class="text-uppercase">{{$actuador->actuador}}</span>
+                            <img class="imgSensor" src="{{asset($actuador->icono)}}" alt="">
+                        </div>
+                        <div class="card-body">
+                            <form action="{{asset('actuadores/actualizar_estado')}}" id="form_actuador_{{$actuador->id}}" method="POST">
+                                <input type="hidden" value="{{$actuador->id}}" name="idActuador">
+                                @csrf
+                                @method('put')
+                                <div class="d-flex justify-content-center align-items-center">
 
+                                    <span class="text-uppercase mr-2">
+                                        @if($actuador->id <5)
+                                            @if($actuador->estado == 0) Apagado @else Prendido @endif
+                                        @else
+                                            @if($actuador->estado == 0) Cerrado @else Abierto @endif
+                                        @endif
+                                    </span>
 
-         <div class="row wrapper sensores">
-             @foreach($actuadores as $actuador)
-                 <div class="col-md-{{$actuador->tamanio}} col-lg-{{$actuador->tamanio}} col-xs-12 col-sm-12">
+                                    @include('actuadores.switch')
+
+                                </div>
+                                <div class="text-center">
+                                    @if($actuador->need_configuracion)
+                                        @include('actuadores.configurador')
+                                    @endif
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                 {{--<div class="col-md-{{$actuador->tamanio}} col-lg-{{$actuador->tamanio}} col-xs-12 col-sm-12">
                      <div class="card mb-3">
                          <div class="card-header d-flex justify-content-between align-items-center">
                              <span class="text-uppercase">{{$actuador->actuador}}</span>
@@ -188,12 +149,12 @@
                              </form>
                          </div>
                      </div>
-                 </div>
-             @endforeach
+                 </div>--}}
+            @endforeach
 
-         </div>
+        </div>
 
-     </div>
+    </div>
 
 @stop
 
@@ -277,6 +238,24 @@
 
         getWather();
 
+
+    </script>
+
+    <script>
+
+        let inputRangoVentilador  = document.getElementById("rangoVentilador");
+        let inputRangoIluminacion = document.getElementById("rangoIluminacion");
+
+        inputRangoVentilador.addEventListener("change",(event)=>{
+            let value = event.target.value;
+            document.getElementById("rangeVentilador").innerText = value;
+        });
+
+        inputRangoIluminacion.addEventListener("change",(event)=>{
+            let value = event.target.value;
+            document.getElementById("rangeIluminacion").innerText = value;
+        });
     </script>
 
 @stop
+

@@ -18,7 +18,8 @@ class CreateActuadorsTable extends Migration
             $table->string('actuador');
             $table->string('icono');
             $table->integer('tamanio')->default(6);
-            $table->integer('nivel')->nullable();
+            $table->integer('need_configuracion');
+            $table->integer('configuracion')->default(0);
             $table->tinyInteger('eliminado')->default(0);
             $table->tinyInteger('estado')->default(0); // 0' => apagado 1 => encendido
             $table->timestamps();

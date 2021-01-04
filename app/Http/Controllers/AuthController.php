@@ -49,7 +49,7 @@ class AuthController extends Controller
             return back()->withErrors(['email'=>trans('auth.failed')])->withInput();
 
         }catch (\Exception $exception) {
-
+            dd($exception);
         }
 
     }

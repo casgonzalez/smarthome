@@ -12,13 +12,5 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-
-
-        $this->call([
-            //ActuadorTableSeed::class
-        ]);
-
-        //factory(\App\User::class)->times(10)->create();
-        factory(\App\Escuchador::class)->times(100)->create();
     }
 }

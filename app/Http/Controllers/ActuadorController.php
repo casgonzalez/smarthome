@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actuador;
 use App\Mail\ForzeDoorMail;
+use App\Notificacion;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,72 +16,77 @@ class ActuadorController extends Controller
 
     public function update(Request $request) {
 
-        $id = $request->id;
+        $idActuador = $request->idActuador;
 
-        $actuador = Actuador::findOrFail($id);
+        $actuador = Actuador::findOrFail($idActuador);
 
+        $label    = '';
 
-        if($request->noChangeState == 1 && $request->state == "on"){
-            $actuador->nivel = $request->nivel;
-            $actuador->save();
-            return back();
+        if ($request->estado == null ) { // apagar
+            $actuador->estado = 0;
+            if($actuador->id == 5) {
+                $label = "{$actuador->actuador} Se cerro";
+            }else{
+                $label = "{$actuador->actuador} Se apago";
+            }
+        }else{
+            $actuador->estado = 1;
+            if($actuador->id == 5) {
+                $label = "{$actuador->actuador} Se abrio";
+            }else{
+                $label = "{$actuador->actuador} Se apago";
+            }
         }
-        $actuador->estado = $actuador->estado == 0 ? 1 : 0;
 
         switch ($actuador->id) {
 
             case 1 : {
+                $icono = 'imagenes/actuadores/luz-';
+                $actuador->icono =
+                    $actuador->estado == 0 ? $icono .= 'apagada.png' : $icono.='prendida.png';
+                $actuador->configuracion = $request->configuracion;
+                break;
+            }
+
+            case 2 : {
+                $icono = 'imagenes/actuadores/ventilador-';
+                $actuador->icono =
+                    $actuador->estado == 0 ? $icono .= 'apagado.png' : $icono.='prendido.png';
+                $actuador->configuracion = $request->configuracion;
+                break;
+            }
+
+            case 3 : {
                 $icono = 'imagenes/actuadores/aire-';
                 $actuador->icono =
                     $actuador->estado == 0 ? $icono .= 'apagado.png' : $icono.='prendido.png';
                 break;
             }
-            case 2 : {
-                $icono = 'imagenes/actuadores/ventilador-';
+            case 4 : {
+                $icono = 'imagenes/actuadores/luz-';
                 $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagado.png' : $icono.='prendido.png';
-                $actuador->nivel = $request->nivel;
+                    $actuador->estado == 0 ? $icono .= 'apagada.png' : $icono.='prendida.png';
                 break;
             }
-            case 6 : {
+
+            case 5 : {
                 $icono = 'imagenes/actuadores/candado-';
                 $actuador->icono =
                     $actuador->estado == 0 ? $icono .= 'apagado.png' : $icono.='prendido.png';
 
                 // si ha sido abierta mandar correo
-                if($request->estado == "on") {
 
-                    $fecha = now();
-
-                    $userActive = Auth::user();
-
-                    $userAdmin  = User::first();
-
-                    $mail = new ForzeDoorMail($fecha,$userActive,$userAdmin);
-
-                    Mail::to($userAdmin->email)->send($mail);
-
-                }
-                break;
-            }
-
-            case 4 : {
-                $icono = 'imagenes/actuadores/luz-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagada.png' : $icono.='prendida.png';
-                $actuador->nivel = $request->nivel;
-                break;
-            }
-
-            case 5 : {
-                $icono = 'imagenes/actuadores/luz-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagada.png' : $icono.='prendida.png';
                 break;
             }
         }
 
+
         $actuador->save();
+
+        $notificacion = new Notificacion();
+        $notificacion->idUser = Auth::user()->idUsuario;
+        $notificacion->label  = $label;
+        $notificacion->save();
 
         return back();
     }

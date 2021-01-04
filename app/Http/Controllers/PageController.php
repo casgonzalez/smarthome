@@ -12,8 +12,14 @@ class PageController extends Controller
 
     public function dashboard() {
 
+        /*for($i= 1; $i<=31; $i++) {
+            $temperatura = new Temperatura();
+            $temperatura->fecha = "2020-12-{$i}";
+            $temperatura->temperatura = rand(20,35);
+            $temperatura->save();
+        }*/
 
-        $actuadores = Actuador::all();
+        $actuadores = Actuador::orderBY('id','asc')->get();
 
         $temps = Temperatura::orderBy('id','DESC')->take(10)->get();
         $temperaturas = array();

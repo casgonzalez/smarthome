@@ -44,12 +44,25 @@
                                     </a>
                                 </li>
                             @endif
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
+                            @if(Auth::user()->isAdmin())
+                            <li class="nav-item  dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
                                     <i class="fas fa-bell"></i>
+                                    <span class="badge badge-danger nt">{{$notificaciones->count()}}</span>
                                     Notificaciones
                                 </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @foreach($notificaciones as $nt)
+                                        <a class="dropdown-item" href="{{asset('perfil')}}">
+                                            {{$nt->label}} ({{$nt->nombre}} ) <br>
+                                            {{$nt->created_at}}
+                                        </a>
+                                        <div class="divider"></div>
+                                    @endforeach
+
+                                </div>
                             </li>
+                            @endif
                             <li class="nav-item  dropdown ">
                                 <a class="nav-link  dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
                                     {{Auth::user()->nombre}}
