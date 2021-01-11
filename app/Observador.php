@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Actuador extends Model
+class Observador extends Model
 {
-
-    protected $table = 'actuators';
+    //
 }

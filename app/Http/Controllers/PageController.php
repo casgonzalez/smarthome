@@ -12,14 +12,13 @@ class PageController extends Controller
 
     public function dashboard() {
 
-        /*for($i= 1; $i<=31; $i++) {
-            $temperatura = new Temperatura();
-            $temperatura->fecha = "2020-12-{$i}";
-            $temperatura->temperatura = rand(20,35);
-            $temperatura->save();
-        }*/
+        $luzInterna = Actuador::find(1);
+        $luzExterna = Actuador::find(2);
+        $luzCuarto  = Actuador::find(3);
 
-        $actuadores = Actuador::orderBY('id','asc')->get();
+        $ventilador = Actuador::find(4);
+        $clima      = Actuador::find(5);
+        $porton     = Actuador::find(6);
 
         $temps = Temperatura::orderBy('id','DESC')->take(10)->get();
         $temperaturas = array();
@@ -31,7 +30,15 @@ class PageController extends Controller
 
         $latestTempAll = Temperatura::orderBy('id','DESC')->take(4)->get();
 
-        return view('welcome',compact('actuadores','temperaturas'));
+        return view('welcome',compact(
+            'temperaturas',
+            'luzInterna',
+            'luzExterna',
+            'luzCuarto',
+            'ventilador',
+            'clima',
+            'porton'
+        ));
     }
 
 }

@@ -67,6 +67,13 @@ class UsuariosController extends Controller
         DB::beginTransaction();
         try {
 
+
+            $count = User::where('email',$request->email)->count();
+
+            if ($count == 1) {
+                return back();
+            }
+
             $user = User::findOrFail($idUser);
 
             $previusEmail = $user->email;

@@ -48,13 +48,48 @@
                             <li class="nav-item  dropdown">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
                                     <i class="fas fa-bell"></i>
-                                    <span class="badge badge-danger nt">{{$notificaciones->count()}}</span>
+                                    <span class="badge badge-danger nt" id="notificacionCount">{{$notificaciones->count()}}</span>
                                     Notificaciones
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="height: 300px; overflow-y: scroll;">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="" style="padding: 10px 10px;">Notificaciones</span>
+                                        <span  class="fas fa-trash" style="padding: 10px 10px; cursor: pointer"></span>
+                                    </div>
+
                                     @foreach($notificaciones as $nt)
                                         <a class="dropdown-item" href="{{asset('perfil')}}">
-                                            {{$nt->label}} ({{$nt->nombre}} ) <br>
+                                            @switch($nt->idActuador)
+                                                @case(1)
+                                                    <img src="{{asset('imagenes/actuadores/luz-prendida.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                                @break
+                                                @case (2)
+                                                    <img src="{{asset('imagenes/actuadores/luz-prendida.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                                @break
+                                                @case (3)
+                                                    <img src="{{asset('imagenes/actuadores/luz-prendida.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                                @break
+                                                @case (4)
+                                                    <img src="{{asset('imagenes/actuadores/ventilador-prendido.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                                @break
+                                                @case (5)
+                                                    <img src="{{asset('imagenes/actuadores/aire-apagado.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                                @break
+                                                @case (6)
+                                                    <img src="{{asset('imagenes/actuadores/candado-apagado.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                                @break
+                                            @endswitch
+                                            {{$nt->actuator}}
+                                            @switch($nt->state)
+                                                @case(0)
+                                                    @if($nt->actuator == 'Porton')  Se cerro @else Se apago @endif
+                                                @break
+                                                @case (1)
+                                                    @if($nt->actuator == 'Porton')  Se abrio @else Se cerro @endif
+                                                @break
+                                            @endswitch
+
+                                            ({{$nt->nombre}} ) <br>
                                             {{$nt->created_at}}
                                         </a>
                                         <div class="divider"></div>
@@ -87,13 +122,16 @@
 
     <div class="space__header"></div>
 
+
+
     @yield('content')
 
 
 
     <script src="{{asset('js/jquery.js')}}"></script>
     <script src="{{asset('js/bootstrap.js')}}"></script>
-    <script src="{{asset('mdb.js')}}"></script>
+    <script src="{{asset('js/mdb.js')}}"></script>
+
 
     @yield('script_js')
 </body>

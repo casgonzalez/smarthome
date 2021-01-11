@@ -16,79 +16,23 @@ class ActuadorController extends Controller
 
     public function update(Request $request) {
 
-        $idActuador = $request->idActuador;
+        $idActuador = $request->idActuator;
+        $next_state = $request->next_state;
 
-        $actuador = Actuador::findOrFail($idActuador);
-
-        $label    = '';
-
-        if ($request->estado == null ) { // apagar
-            $actuador->estado = 0;
-            if($actuador->id == 5) {
-                $label = "{$actuador->actuador} Se cerro";
-            }else{
-                $label = "{$actuador->actuador} Se apago";
-            }
-        }else{
-            $actuador->estado = 1;
-            if($actuador->id == 5) {
-                $label = "{$actuador->actuador} Se abrio";
-            }else{
-                $label = "{$actuador->actuador} Se apago";
-            }
-        }
-
-        switch ($actuador->id) {
-
-            case 1 : {
-                $icono = 'imagenes/actuadores/luz-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagada.png' : $icono.='prendida.png';
-                $actuador->configuracion = $request->configuracion;
-                break;
-            }
-
-            case 2 : {
-                $icono = 'imagenes/actuadores/ventilador-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagado.png' : $icono.='prendido.png';
-                $actuador->configuracion = $request->configuracion;
-                break;
-            }
-
-            case 3 : {
-                $icono = 'imagenes/actuadores/aire-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagado.png' : $icono.='prendido.png';
-                break;
-            }
-            case 4 : {
-                $icono = 'imagenes/actuadores/luz-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagada.png' : $icono.='prendida.png';
-                break;
-            }
-
-            case 5 : {
-                $icono = 'imagenes/actuadores/candado-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagado.png' : $icono.='prendido.png';
-
-                // si ha sido abierta mandar correo
-
-                break;
-            }
-        }
-
-
+        $actuador = Actuador::find($idActuador);
+        $actuador->state = $next_state;
         $actuador->save();
 
-        $notificacion = new Notificacion();
-        $notificacion->idUser = Auth::user()->idUsuario;
-        $notificacion->label  = $label;
-        $notificacion->save();
+        $notificaciones = new Notificacion();
+        $notificaciones->idUser = Auth::user()->idUsuario;
+        $notificaciones->idActuador  = $actuador->id;
+        $notificaciones->state = $actuador->state;
+        $notificaciones->save();
 
-        return back();
+        return response()->json([
+            'message' => $actuador->state == 0 ? 'La luz se a apagado' : 'La Luz se a prendido'
+        ],200);
+
     }
 
     function forzeDoor() {
