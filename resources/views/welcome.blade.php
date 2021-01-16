@@ -73,9 +73,40 @@
                 <div class="card no-padding">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span class="text-uppercase">Hola {{Auth::user()->nombre}}</span>
-                        <img style="width: 45px; border-radius: 50%; height: 45px;" src="{{asset(Auth::user()->urlFotoPerfil)}}" alt="">
+                        <img style="width: 25px; border-radius: 50%; height: 25px;" src="{{asset(Auth::user()->urlFotoPerfil)}}" alt="">
                     </div>
-                    <div class="card-body">
+                    <div class="card-body content__camera overflor-y">
+                        <div class="alarmas" >
+                            @foreach($alarmas as $alarma)
+                                <div class="" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                                    <span>
+                                         @switch($alarma->actuator_id)
+                                            @case(1)
+                                                <img src="{{asset('imagenes/actuadores/luz-prendida.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                            @break
+                                            @case (2)
+                                                <img src="{{asset('imagenes/actuadores/luz-prendida.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                            @break
+                                            @case (3)
+                                                <img src="{{asset('imagenes/actuadores/luz-prendida.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                            @break
+                                            @case (4)
+                                                <img src="{{asset('imagenes/actuadores/ventilador-prendido.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                            @break
+                                            @case (5)
+                                                <img src="{{asset('imagenes/actuadores/aire-apagado.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                            @break
+                                            @case (6)
+                                                <img src="{{asset('imagenes/actuadores/candado-apagado.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
+                                            @break
+                                        @endswitch
+                                        {{$alarma->actuator}}  @if ($alarma->next_state == 0) Se apagara @else Se prendera @endif  {{$alarma->timeRemaining()}}
+                                    </span>
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <hr>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,7 +138,10 @@
             </div>
             <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">{{$luzExterna->actuator}}</div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        {{$luzExterna->actuator}}
+                        <i class="fas fa-clock" data-toggle="modal" data-target=".modalLuzExternaAlarma" style="cursor:pointer;"></i>
+                    </div>
                     <div class="card-body text-center">
                         <input type="checkbox" id="luzExterna" onchange="onChangeLuzExterna(event,'{{$luzExterna->id}}')" @if($luzExterna->state == 1) checked @endif  data-toggle="toggle">
                     </div>
@@ -129,7 +163,10 @@
             </div>
             <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">{{$ventilador->actuator}}</div>
+                    <div class="card-header  d-flex justify-content-between align-items-center">
+                        {{$ventilador->actuator}}
+                        <i class="fas fa-clock" data-toggle="modal" data-target=".modalVentiladorAlarma" style="cursor:pointer;"></i>
+                    </div>
                     <div class="card-body text-center">
                         <input type="checkbox" id="ventilador" onchange="onChangeVentilador(event,'{{$ventilador->id}}')" @if($ventilador->state == 1) checked @endif data-toggle="toggle">
 
@@ -142,7 +179,10 @@
         <div class="row wrapper">
             <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">{{$clima->actuator}}</div>
+                    <div class="card-header d-flex justify-content-between align-items-center ">
+                        {{$clima->actuator}}
+                        <i class="fas fa-clock" data-toggle="modal" data-target=".modalClimaAlarma" style="cursor:pointer;"></i>
+                    </div>
                     <div class="card-body text-center">
                         <input type="checkbox" id="clima" onchange="onChangeClima(event,'{{$clima->id}}')" @if($clima->state == 1) checked @endif data-toggle="toggle">
                     </div>
@@ -160,6 +200,110 @@
 
     </div>
 
+    <!--CLIMA MODAL-->
+    <form action="{{asset('alarma/'.$clima->id)}}" method="POST">
+        @csrf
+        <div class="modal fade modalClimaAlarma" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span>Programar tu clima</span>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <select name="next_state" id="" class="form-control form-control-lg">
+                                <option value="" selected>Selecciona un estado</option>
+                                <option value="0">1.Apagar</option>
+                                <option value="1">2.Encender</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="datetime-local" name="time" class="form-control-lg form-control">
+                        </div>
+
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--Ventilador MODAL-->
+    <form action="{{asset('alarma/'.$ventilador->id)}}" method="POST">
+        @csrf
+        <div class="modal fade modalVentiladorAlarma" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span>Programar tu ventilador</span>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <select name="next_state" id="" class="form-control form-control-lg">
+                                <option value="" selected>Selecciona un estado</option>
+                                <option value="0">1.Apagar</option>
+                                <option value="1">2.Encender</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="datetime-local" name="time" class="form-control-lg form-control">
+                        </div>
+
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--Luz Externa MODAL-->
+    <form action="{{asset('alarma/'.$luzExterna->id)}}" method="POST">
+        @csrf
+        <div class="modal fade modalLuzExternaAlarma" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span>Programar tu Luz Externa</span>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <select name="next_state" id="" class="form-control form-control-lg">
+                                <option value="" selected>Selecciona un estado</option>
+                                <option value="0">1.Apagar</option>
+                                <option value="1">2.Encender</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="datetime-local" name="time" class="form-control-lg form-control">
+                        </div>
+
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
 @stop
 
 @section('script_js')
@@ -168,6 +312,8 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
 
     <script>
 
@@ -303,13 +449,9 @@
 
             if (isChecked) {
                 let valueNt = document.getElementById("notificacionCount");
-                console.log(parseInt(valueNt.innerText)+1)
-                valueNt.innerText =parseInt(valueNt.innerText)+1;
                 changeState(1,idActuator,'Luz Interna se a prendido')
             }else{
                 let valueNt = document.getElementById("notificacionCount");
-                console.log(parseInt(valueNt.innerText)+1)
-                valueNt.innerText =parseInt(valueNt.innerText)+1;
                 changeState(0,idActuator,'Luz Interna se a apagado')
             }
         }

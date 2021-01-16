@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Observador;
 use App\TblAlarma;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -10,11 +11,13 @@ class AlarmaController extends Controller
 {
 
 
-    function store(Request  $request) {
+    function store(Request  $request, $actuador_id) {
 
-        $alarma = new TblAlarma();
-        $alarma->time_end  = $request->end_time;
-        $alarma->save();
+        $observador = new Observador();
+        $observador->actuator_id = $actuador_id;
+        $observador->time = $request->time;
+        $observador->next_state = $request->next_state;
+        $observador->save();
 
         return back();
 

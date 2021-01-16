@@ -53,7 +53,11 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="height: 300px; overflow-y: scroll;">
                                     <div class="d-flex justify-content-between">
-                                        <span class="" style="padding: 10px 10px;">Notificaciones</span>
+                                        <div>
+                                            <span class="" style="padding: 10px 10px;">Notificaciones</span> <br>
+                                            <a href="{{asset('notificaciones')}}" style="padding: 0px 10px"><small>Ver todo</small></a>
+                                        </div>
+
                                         <span  class="fas fa-trash" style="padding: 10px 10px; cursor: pointer"></span>
                                     </div>
 

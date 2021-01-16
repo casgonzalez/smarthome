@@ -29,6 +29,10 @@ Route::post('perfil/changeProfileImage',[\App\Http\Controllers\UsuariosControlle
 
 Route::put('actuadores',[\App\Http\Controllers\ActuadorController::class,'update']);
 
+Route::post('alarma/{idactuador}',[\App\Http\Controllers\AlarmaController::class,'store']);
+
+Route::get('notificaciones',[\App\Http\Controllers\PageController::class,'notificaciones']);
+
 /**********************************ADMINISTRACION***********************************/
 
 Route::group(['prefix'=>'administracion','middleware'=>['auth','user_check']],function(){

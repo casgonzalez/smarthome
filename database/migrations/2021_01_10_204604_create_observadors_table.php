@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateObservadorsTable extends Migration
 {
-    
+
     public function up()
     {
         Schema::create('observers', function (Blueprint $table) {
@@ -19,6 +19,8 @@ class CreateObservadorsTable extends Migration
             $table->integer('next_state');
 
             $table->datetime('time');
+
+            $table->tinyInteger('status')->default(0);
 
             $table->timestamps();
 
