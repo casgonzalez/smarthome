@@ -102,7 +102,13 @@
                                         @endswitch
                                         {{$alarma->actuator}}  @if ($alarma->next_state == 0) Se apagara @else Se prendera @endif  {{$alarma->timeRemaining()}}
                                     </span>
-                                    <i class="fas fa-clock"></i>
+                                    <form action="{{asset('/alarma/'.$alarma->id)}}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-sm btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                                 <hr>
                             @endforeach
@@ -190,7 +196,13 @@
             </div>
             <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">{{$porton->actuator}}</div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        {{$porton->actuator}}
+                        <a href="{{asset('forzar_puerta')}}" class="btn btn-danger btn-sm">
+                            <i class="fa fa-clock-open"></i>
+                            Forzar
+                        </a>
+                    </div>
                     <div class="card-body text-center">
                         <input type="checkbox" id="porton" onchange="onChangePorton(event,'{{$porton->id}}')" @if($porton->state == 1) checked @endif data-toggle="toggle">
                     </div>

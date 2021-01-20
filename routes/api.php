@@ -17,3 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('actuador/porton',[App\Http\Controllers\ActuadorController::class,'observer']);
+Route::get('actuador/porton/close',[App\Http\Controllers\ActuadorController::class,'forceCloseNotification']);
+
+
+
+Route::get('actuador/observers/{idActuador}',[App\Http\Controllers\ActuadorController::class,'observerAlarms']);
+
+
+Route::post('humedad',[App\Http\Controllers\HumedadController::class,'store']);

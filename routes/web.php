@@ -29,9 +29,13 @@ Route::post('perfil/changeProfileImage',[\App\Http\Controllers\UsuariosControlle
 
 Route::put('actuadores',[\App\Http\Controllers\ActuadorController::class,'update']);
 
+Route::get('forzar_puerta',[App\Http\Controllers\ActuadorController::class,'forzarPuerta']);
+
 Route::post('alarma/{idactuador}',[\App\Http\Controllers\AlarmaController::class,'store']);
 
 Route::get('notificaciones',[\App\Http\Controllers\PageController::class,'notificaciones']);
+
+Route::delete('alarma/{idAlarm}',[\App\Http\Controllers\PageController::class,'deleteAlarm']);
 
 /**********************************ADMINISTRACION***********************************/
 

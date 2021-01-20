@@ -24,7 +24,7 @@ class PageController extends Controller
 
         $alarmas    = Observador::join('actuators','observers.actuator_id','actuators.id')
             ->orderBy('observers.time','DESC')
-            ->select(['actuators.actuator','observers.time','next_state','observers.created_at','actuators.id as actuator_id'])->get();
+            ->select(['actuators.actuator','observers.id','observers.time','next_state','observers.created_at','actuators.id as actuator_id'])->get();
 
         $temps = Temperatura::orderBy('id','DESC')->take(10)->get();
         $temperaturas = array();
@@ -64,6 +64,12 @@ class PageController extends Controller
             ->get();
 
         return view('nts',compact('nts'));
+    }
+
+    public function deleteAlarm($idAlarm) 
+    {
+        Observador::find($idAlarm)->delete();
+        return back();
     }
 
 }
