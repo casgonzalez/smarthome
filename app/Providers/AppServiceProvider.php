@@ -28,8 +28,15 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*',function($view){
 
             $notificaciones = Notificacion::join('tbl_usuarios','notificacions.idUser','tbl_usuarios.idUsuario')
-                ->select('tbl_usuarios.nombre','notificacions.*')
-                ->orderBy('id','DESC')
+                ->join('actuators','notificacions.idActuador','actuators.id')
+                ->select(
+                    'notificacions.state',
+                    'tbl_usuarios.nombre',
+                    'actuators.actuator',
+                    'actuators.id as idActuador',
+                    'notificacions.created_at'
+                )
+                ->orderBy('notificacions.id','DESC')
                 ->take(10)
                 ->get();
 

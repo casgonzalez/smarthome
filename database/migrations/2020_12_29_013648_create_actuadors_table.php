@@ -13,15 +13,12 @@ class CreateActuadorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('actuadores', function (Blueprint $table) {
+        Schema::create('actuators', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('actuador');
-            $table->string('icono');
-            $table->integer('tamanio')->default(6);
-            $table->integer('need_configuracion');
-            $table->integer('configuracion')->default(0);
-            $table->tinyInteger('eliminado')->default(0);
-            $table->tinyInteger('estado')->default(0); // 0' => apagado 1 => encendido
+            $table->string('actuator');
+            $table->string('icon');
+            $table->tinyInteger('is_delete')->default(0);    
+            $table->integer('state')->default(0);
             $table->timestamps();
         });
     }
@@ -33,6 +30,6 @@ class CreateActuadorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('actuadors');
+        Schema::dropIfExists('actuadores');
     }
 }

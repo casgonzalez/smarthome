@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <h3>Hola {{$userAdmin->nombre}} te informamos que tu puerta ha sido abierta por el usuario {{$userActive->nombre}}</h3>
+    <h3>Hola {{$userAdmin->nombre}} te informamos que tu puerta ha sido forzada, Fecha: {{$fecha}}</h3>
 
 </body>
 </html>

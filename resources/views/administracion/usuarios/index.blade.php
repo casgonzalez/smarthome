@@ -12,6 +12,12 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-8 col-xs-12 col-sm-12">
 
+                        @if(Session::has('status_warning'))
+                            <div class="alert alert-warning">
+                                {{Session::get('status_warning')}}
+                            </div>
+                        @endif
+
                         <form action="{{asset('administracion/usuarios')}}" method="GET">
                             <div class="input-group input-group-lg box-gray">
                                 <input type="text" name="like" value="{{$like}}" placeholder="Buscar usuario..." class="form-control form-control-lg " aria-label="Text input with dropdown button">

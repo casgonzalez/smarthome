@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actuador;
 use App\Mail\ForzeDoorMail;
 use App\Notificacion;
+use App\Observador;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,81 +15,35 @@ use Illuminate\Support\Facades\Mail;
 class ActuadorController extends Controller
 {
 
-    public function update(Request $request) {
 
-        $idActuador = $request->idActuador;
-
-        $actuador = Actuador::findOrFail($idActuador);
-
-        $label    = '';
-
-        if ($request->estado == null ) { // apagar
-            $actuador->estado = 0;
-            if($actuador->id == 5) {
-                $label = "{$actuador->actuador} Se cerro";
-            }else{
-                $label = "{$actuador->actuador} Se apago";
-            }
-        }else{
-            $actuador->estado = 1;
-            if($actuador->id == 5) {
-                $label = "{$actuador->actuador} Se abrio";
-            }else{
-                $label = "{$actuador->actuador} Se apago";
-            }
-        }
-
-        switch ($actuador->id) {
-
-            case 1 : {
-                $icono = 'imagenes/actuadores/luz-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagada.png' : $icono.='prendida.png';
-                $actuador->configuracion = $request->configuracion;
-                break;
-            }
-
-            case 2 : {
-                $icono = 'imagenes/actuadores/ventilador-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagado.png' : $icono.='prendido.png';
-                $actuador->configuracion = $request->configuracion;
-                break;
-            }
-
-            case 3 : {
-                $icono = 'imagenes/actuadores/aire-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagado.png' : $icono.='prendido.png';
-                break;
-            }
-            case 4 : {
-                $icono = 'imagenes/actuadores/luz-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagada.png' : $icono.='prendida.png';
-                break;
-            }
-
-            case 5 : {
-                $icono = 'imagenes/actuadores/candado-';
-                $actuador->icono =
-                    $actuador->estado == 0 ? $icono .= 'apagado.png' : $icono.='prendido.png';
-
-                // si ha sido abierta mandar correo
-
-                break;
-            }
-        }
-
-
-        $actuador->save();
-
-        $notificacion = new Notificacion();
-        $notificacion->idUser = Auth::user()->idUsuario;
-        $notificacion->label  = $label;
-        $notificacion->save();
+    public function forzarPuerta()
+    {
+        $porton = Actuador::find(6);
+        $porton->state = 1;
+        $porton->save();
 
         return back();
+    }
+
+    public function update(Request $request) {
+
+        $idActuador = $request->idActuator;
+        $next_state = $request->next_state;
+
+        $actuador = Actuador::find($idActuador);
+        $actuador->state = $next_state;
+        $actuador->save();
+
+        $notificaciones = new Notificacion();
+        $notificaciones->idUser = Auth::user()->idUsuario;
+        $notificaciones->idActuador  = $actuador->id;
+        $notificaciones->state = $actuador->state;
+        $notificaciones->save();
+
+        return response()->json([
+            'message' => $actuador->state == 0 ? 'La luz se a apagado' : 'La Luz se a prendido'
+        ],200);
+
     }
 
     function forzeDoor() {
@@ -121,6 +76,91 @@ class ActuadorController extends Controller
             DB::rollBack();
 
         }
+
+    }
+
+    public function observer() 
+    {
+        $porton = Actuador::find(6);
+
+        $current_state = $porton->state;
+
+        $latest_state  = Notificacion::where('idActuador',$porton->id)->first()->state;
+
+        if ( $current_state == $latest_state )
+        {
+            return response()->json(['is_forced'=>0]);
+        }else
+        {
+            return response()->json(['is_forced'=>1]);
+        }
+    }
+
+    public function forceCloseNotification()
+    {
+        
+        $porton = Actuador::find(6);
+        
+        try{
+            // cerrar el porton forzado
+            $porton->state = 0;
+            $porton->save();
+
+            $fecha = now();
+
+            $userAdmin  = User::first();
+
+            $mail = new ForzeDoorMail($fecha,$userAdmin);
+
+            Mail::to($userAdmin->email)->send($mail);
+
+            return response()->json(['mgs'=>'El correo ha sido enviado...'],200);
+
+        }catch(\Exception $exception) {
+            return response()->json(['msg'=>$exception->getMessage()],500);
+        }
+
+    }
+
+    /* alarmas */
+
+    public function observerAlarms($idActuador)
+    {
+
+        //
+        $actuador = Actuador::findOrFail($idActuador);
+
+        $ob = Observador::where('actuator_id',$actuador->id)
+            ->whereRaw(DB::raw('now() >= time'))
+            ->where('status',0)
+            ->first();
+
+        if (!$ob) {
+            return response()->json(['msg'=>'Ninguna alarma agregada']);
+        }
+
+        if ($actuador->state == $ob->next_state) {
+            $ob->status = 1;
+            $ob->save();
+            return response()->json(['msg'=>'El estado del actuador es igual al del estado del programado']);
+        }
+
+        $actuador->state = $ob->next_state;
+        $actuador->save();
+
+        $ob->status = 1;
+        $ob->save();
+
+        $idActuador = $actuador->id;
+        $next_state = $ob->next_state;
+
+        $notificaciones = new Notificacion();
+        $notificaciones->idUser = 1;
+        $notificaciones->idActuador  = $actuador->id;
+        $notificaciones->state       = $actuador->state;
+        $notificaciones->save();
+
+        return response()->json(['mgs'=>'ok'],200);
 
     }
 

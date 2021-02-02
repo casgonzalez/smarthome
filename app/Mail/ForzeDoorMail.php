@@ -16,12 +16,11 @@ class ForzeDoorMail extends Mailable
      *
      * @return void
      */
-    public $fecha,$userAdmin,$userActive;
-    public function __construct($fecha,$userAdmin,$userActive)
+    public $fecha,$userAdmin;
+    public function __construct($fecha,$userAdmin)
     {
         $this->fecha = $fecha;
         $this->userAdmin  = $userAdmin;
-        $this->userActive  = $userActive;
     }
 
     /**
