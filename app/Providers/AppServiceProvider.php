@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
             $notificaciones = Notificacion::join('tbl_usuarios','notificacions.idUser','tbl_usuarios.idUsuario')
                 ->join('actuators','notificacions.idActuador','actuators.id')
                 ->select(
+                    'notificacions.id',
                     'notificacions.state',
                     'tbl_usuarios.nombre',
                     'actuators.actuator',
@@ -37,8 +38,10 @@ class AppServiceProvider extends ServiceProvider
                     'notificacions.created_at'
                 )
                 ->orderBy('notificacions.id','DESC')
-                ->take(10)
+                ->whereDate('notificacions.created_at',now())
+                ->where('is_view',0)
                 ->get();
+
 
             $view->with('notificaciones',$notificaciones);
         });

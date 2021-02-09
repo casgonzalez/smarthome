@@ -24,10 +24,10 @@
                             <div class="card">
                                 <div class="card-header text-uppercase d-flex justify-content-between    align-items-center">
                                     temperatura
-                                    <img src="" style="width: 30px; height: 30px;" id="imageTemperature" alt="">
+                                    <img src="https://www.flaticon.es/svg/static/icons/svg/704/704845.svg" style="width: 30px; height: 30px;" id="imageTemperature" alt="">
                                 </div>
                                 <div class="card-body text-center">
-                                    <span id="temperature" style="font-size: 40px;"  class="text-uppercase text-bold"></span>
+                                    <span  style="font-size: 40px;"  class="text-uppercase text-bold">{{$lastTemp->temperatura}} °C</span>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                                     <img src="https://www.flaticon.es/svg/static/icons/svg/3314/3314011.svg" style="width: 30px; height: 30px;" alt="">
                                 </div>
                                 <div class="card-body text-center">
-                                    <span id="humidity" style="font-size: 40px;"  class="text-uppercase text-bold"></span>
+                                    <span id="humidity" style="font-size: 40px;"  class="text-uppercase text-bold">{{$lastHumedad->valor}} %</span>
                                 </div>
                             </div>
                         </div>
@@ -553,7 +553,9 @@
            hide_loading();
 
            toastr.success(msg);
-       }
+
+           location.reload();
+        }
 
         function show_loading() {
             $('html').addClass('loading-overlay-shown');
@@ -597,42 +599,6 @@
                 maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
             }
         });
-
-    </script>
-
-    <script>
-
-        var endpointWather = "https://api.darksky.net/forecast/8f05b9be093e0cbfcd6d645a5eb8a0af/16.7597,-93.1131?units=si&callback=?";
-
-         function getWather () {
-             $.getJSON(endpointWather,(report)=>{
-
-                 let currently = report.currently;
-
-                 let temperature = currently.temperature;
-                 let humidity    = currently.humidity;
-
-                 let temperatureDOM = document.getElementById('temperature');
-                 let humidityDOM    = document.getElementById('humidity');
-
-                 temperatureDOM.innerText = temperature+' °C';
-                 humidityDOM.innerText    = humidity+" %";
-
-                 let imageTemperatureDOM = document.getElementById("imageTemperature");
-
-                 if (temperature >= 27) {
-                     imageTemperatureDOM.setAttribute('src','https://www.flaticon.es/svg/static/icons/svg/869/869869.svg');
-                 }
-
-                 if (temperature < 27) {
-                     imageTemperatureDOM.setAttribute('src','https://www.flaticon.es/svg/static/icons/svg/704/704845.svg');
-                 }
-
-             });
-        }
-
-        getWather();
-
 
     </script>
 

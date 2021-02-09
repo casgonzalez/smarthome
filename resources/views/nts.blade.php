@@ -11,8 +11,7 @@
                 </div>
                 <div class="card-body overflor-y" style="height: 500px;">
                     @foreach($nts as $nt)
-                        <a class="dropdown-item" href="{{asset('perfil')}}">
-                            @switch($nt->idActuador)
+                    @switch($nt->idActuador)
                                 @case(1)
                                 <img src="{{asset('imagenes/actuadores/luz-prendida.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
                                 @break
@@ -44,10 +43,7 @@
 
                             ({{$nt->nombre}} ) <br>
                             {{$nt->created_at}} <br>
-                                <form action="">
-                                    <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Eliminar</button>
-                                </form>
-                        </a>
+                               
                         <div class="divider"></div>
                         <hr>
                     @endforeach

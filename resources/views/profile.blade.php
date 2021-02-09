@@ -35,8 +35,7 @@
             border-color: #d6d6d6;
         }
         .avatar-upload .avatar-edit input + label:after {
-            content: "\f040";
-            font-family: "FontAwesome";
+           
             color: #757575;
             position: absolute;
             top: 10px;
@@ -78,7 +77,9 @@
                             <div class="avatar-upload">
                                 <div class="avatar-edit">
                                     <input type='file' name="profile" id="imageUpload" accept=".png, .jpg, .jpeg" />
-                                    <label for="imageUpload"></label>
+                                    <label for="imageUpload">
+                                        <i class="fa fa-edit"></i>
+                                    </label>
                                 </div>
                                 <div class="avatar-preview">
                                     <div id="imagePreview" style="background-image: url({{Auth::user()->urlFotoPerfil}});">
