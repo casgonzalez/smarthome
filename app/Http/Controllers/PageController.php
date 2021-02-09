@@ -7,6 +7,7 @@ use App\Notificacion;
 use App\Observador;
 use App\TblAlarma;
 use App\Temperatura;
+use App\Humedad;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -34,9 +35,8 @@ class PageController extends Controller
             array_push($temperaturas,$temperaturasArray[$i-1]);
         };
 
-        $latestTempAll = Temperatura::orderBy('id','DESC')->take(4)->get();
-
-
+        $lastTemp = Temperatura::orderBy('id','DESC')->take(1)->first();
+        $lastHumedad = Humedad::orderBy('id','DESC')->take(1)->first();
 
         return view('welcome',compact(
             'temperaturas',
@@ -46,11 +46,23 @@ class PageController extends Controller
             'ventilador',
             'clima',
             'porton',
-            'alarmas'
+            'alarmas',
+            'lastTemp',
+            'lastHumedad'
         ));
     }
 
-    public function notificaciones() {
+    public function notificaciones(Request $request) {
+
+        $idntf = $request->id;
+
+        if ($idntf != null) {
+            $ntf = Notificacion::find($idntf);
+            $ntf->is_view = 1;
+            $ntf->save();
+            return redirect('notificaciones');
+        }
+    
         $nts  = Notificacion::join('tbl_usuarios','notificacions.idUser','tbl_usuarios.idUsuario')
             ->join('actuators','notificacions.idActuador','actuators.id')
             ->select(

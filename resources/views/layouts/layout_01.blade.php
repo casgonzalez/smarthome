@@ -58,11 +58,11 @@
                                             <a href="{{asset('notificaciones')}}" style="padding: 0px 10px"><small>Ver todo</small></a>
                                         </div>
 
-                                        <span  class="fas fa-trash" style="padding: 10px 10px; cursor: pointer"></span>
+                                       
                                     </div>
 
                                     @foreach($notificaciones as $nt)
-                                        <a class="dropdown-item" href="{{asset('perfil')}}">
+                                        <a class="dropdown-item" href="{{asset('notificaciones?id='.$nt->id)}}">
                                             @switch($nt->idActuador)
                                                 @case(1)
                                                     <img src="{{asset('imagenes/actuadores/luz-prendida.png')}}" style="width: 20px; height: 20px; border-radius: 100%;" alt="">
