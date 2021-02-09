@@ -3,17 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e7e343b3-32a4-4db8-a16b-0880f37ec27e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AlarmaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AlarmaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PageController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UsuariosController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsuariosController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Observador.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observador.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_01_10_204604_create_observadors_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_01_10_204604_create_observadors_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/administracion/usuarios/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/administracion/usuarios/form.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/administracion/usuarios/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/administracion/usuarios/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/layout_01.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/layout_01.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +139,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/OneDrive/Escritorio/proyecto mapa de calor/app" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -179,11 +168,16 @@
       <workItem from="1609555213601" duration="21705000" />
       <workItem from="1609701982703" duration="276000" />
       <workItem from="1609704219895" duration="400000" />
+<<<<<<< HEAD
+      <workItem from="1609705743526" duration="9160000" />
+      <workItem from="1609820443249" duration="84000" />
+=======
       <workItem from="1609705743526" duration="8312000" />
       <workItem from="1610317415461" duration="94000" />
       <workItem from="1610317511940" duration="15120000" />
       <workItem from="1610586051454" duration="216000" />
       <workItem from="1610601766000" duration="6691000" />
+>>>>>>> 1659b96f976d049ad7ecf9c5eb0ea020eb2adfd9
     </task>
     <servers />
   </component>
