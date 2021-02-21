@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
 
             $table->integer('idRol')->unsigned()->default(2);
 
+            $table->foreign('idRol')->references('idRole')->on('cat_roles');
+
             $table->string('urlFotoPerfil')->default('/imagenes/icons/user-empty.png');
 
             $table->date('cuentaVerificada')->nullable();
