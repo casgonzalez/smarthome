@@ -65,6 +65,7 @@
                          <img style="width: 25px; height: 25px;" src="{{asset('imagenes/actuadores/live.png')}}" alt="">
                      </div>
                      <div class="card-body no-padding content__camera">
+                     <iframe style="width:100%; height:100%" scrolling="no" src="http://192.168.0.185:8081"></iframe>
                      </div>
                  </div>
              </div>
