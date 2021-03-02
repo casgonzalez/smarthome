@@ -114,7 +114,7 @@ class UsuariosController extends Controller
 
             DB::commit();
 
-            return back();
+            return back()->with('status_success','Los datos han sido actualizados correctamente');
 
         }catch (\Exception $exception) {
             DB::rollBack();

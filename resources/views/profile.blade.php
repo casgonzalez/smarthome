@@ -35,7 +35,7 @@
             border-color: #d6d6d6;
         }
         .avatar-upload .avatar-edit input + label:after {
-           
+
             color: #757575;
             position: absolute;
             top: 10px;
@@ -69,6 +69,13 @@
 
     <div class="container">
         <div class="row">
+            <div class="col-md-12">
+                @if(Session::has('status_success'))
+                    <div class="alert alert-success">
+                        <strong>{{Session::get('status_success')}}</strong>
+                    </div>
+                @endif
+            </div>
             <div class="col-md-4">
                 <form action="{{asset('perfil/changeProfileImage')}}" enctype="multipart/form-data" method="POST">
                     @csrf
@@ -99,7 +106,16 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        @include('administracion.usuarios.form',['profile'=>true])
+                        <form class="" action="{{asset('administracion/usuarios/'.$user->idUsuario)}}" method="post">
+                            @csrf
+                            @method('put')
+                            @include('administracion.usuarios.form',['profile'=>false])
+
+                            <button type="submit" class="btn btn-sm btn-success" name="button">
+                                <i class="fa fa-edit"></i>
+                                Guardar
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -126,4 +142,3 @@
         });
     </script>
 @stop
-
