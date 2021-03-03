@@ -46,6 +46,8 @@ Route::group(['prefix'=>'administracion','middleware'=>['auth','user_check']],fu
 
     Route::post('usuarios',[\App\Http\Controllers\UsuariosController::class,'store']);
 
+    Route::get('usuarios/{id}/edit',[\App\Http\Controllers\UsuariosController::class,'edit']);
+
     Route::put('usuarios/{idUsuario}',[\App\Http\Controllers\UsuariosController::class,'update']);
 
 

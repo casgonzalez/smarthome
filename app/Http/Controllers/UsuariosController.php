@@ -56,7 +56,7 @@ class UsuariosController extends Controller
 
             DB::commit();
 
-            return back();
+            return redirect('/administracion/usuarios')->with('status_success','Los datos del usuario han sido agregados correctamente');
 
         }catch (\Exception $exception) {
             DB::rollBack();
@@ -65,12 +65,26 @@ class UsuariosController extends Controller
 
     }
 
+    public function edit($id)
+    {
+        $user = User::find($id);
+
+        return view('administracion.usuarios.edit',compact('user'));
+    }
+
     public function update(Request $request,$idUser) {
 
         $request->validate([
             'nombre'=>'required',
-            'email'=>['required']
+            'email'=>['required'],
         ]);
+
+        if ($request->password != null)
+        {
+            $request->validate([
+                'password'=>['min:8']
+            ]);
+        }
 
         DB::beginTransaction();
         try {

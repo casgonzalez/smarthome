@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
                         <div class="box-gray text-center">
-                            <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-default">
+                            <a href="{{asset('administracion/usuarios/create')}}"  class="btn btn-default">
                                 <i class="fas fa-user-plus"></i>
                                 Nuevo
                             </a>
@@ -78,7 +78,7 @@
                                         <span class="badge p-2 text-uppercase {{$user->eliminado}}">{{$user->eliminado}}</span>
                                     </td>
                                     <td>
-                                        <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg-{{$user->idUsuario}}" class="btn btn-primary btn-sm">
+                                        <a href="{{asset('administracion/usuarios/'.$user->idUsuario)}}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <form action="{{asset('administracion/usuarios/'.$user->idUsuario)}}" style="display: inline-block;" method="POST">
@@ -108,4 +108,3 @@
     </div>
 
 @stop
-

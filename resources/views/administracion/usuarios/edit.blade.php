@@ -17,14 +17,15 @@
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <span class="text-uppercase font-weight-bold">Registra nuevo usuario</span>
+                        <span class="text-uppercase font-weight-bold">Actualizar</span>
                     </div>
                     <div class="card-body">
-                        <form class="" action="{{asset('administracion/usuarios')}}" method="post">
+                        <form class="" action="{{asset('administracion/usuarios/'.$user->idUsuario)}}" method="post">
                             @csrf
+                            @method('put')
                             @include('administracion.usuarios.form',['profile'=>false])
                             <button type="submit" name="button" class="btn btn-sm btn-primary">
-                                <i class="fas fa-plus-circle"></i>
+                                <i class="fas fa-edit"></i>
                                 Guardar
                             </button>
                         </form>
