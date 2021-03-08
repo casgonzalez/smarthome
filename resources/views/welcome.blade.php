@@ -555,7 +555,7 @@
 
            toastr.success(msg);
 
-           location.reload();
+
         }
 
         function show_loading() {
